@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class Member extends Sequelize.Model {
    static init(sequelize) {
       return super.init(
          {
@@ -21,8 +21,8 @@ module.exports = class User extends Sequelize.Model {
             sequelize,
             timestamps: true, //createAt, updateAt 자동 생성
             underscored: false,
-            modelName: 'User', // 모델 이름
-            tableName: 'users', // 테이블 이름
+            modelName: 'Member', // 모델 이름
+            tableName: 'member', // 테이블 이름
             paranoid: true, // deleteAt 자동생성, 소프트 삭제
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
@@ -30,8 +30,8 @@ module.exports = class User extends Sequelize.Model {
       )
    }
    static associate(db) {
-      db.User.hasMany(db.Post, {
-         foreignKey: 'user_id',
+      db.User.hasMany(db.Board, {
+         foreignKey: 'member_id',
          sourceKey: 'id',
       })
    }
