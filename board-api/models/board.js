@@ -31,10 +31,11 @@ module.exports = class Post extends Sequelize.Model {
             collate: 'utf8mb4_general_ci',
          }
       )
-    }
-    static associate(db) {
-        db.Board.belongsTo(db.Member, {
-            foreignKey: 'member_id',
-            targetKey: 'id'
-        })
-    }
+   }
+   static associate(db) {
+      db.Board.belongsTo(db.Member, {
+         foreignKey: 'member_id',
+         targetKey: 'id',
+      })
+   }
+}
