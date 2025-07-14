@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './styles/common.css'
+import Navbar from './components/shared/Navbar'
+import Home from './pages/Home'
+import SignupPage from './pages/SignupPage'
+import LoginPage from './pages/LoginPage'
+
+import { Route, Routes } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { checkAuthStatusThunk } from './features/authSlice'
+import PostCreatePage from './pages/PostCreatePage'
 
 function App() {
-  const [count, setCount] = useState(0)
+   const dispatch = useDispatch()
+   const { isAuthenticated, user } = useSelector((state) => state.auth) // 로그인 상태, 로그인한 사용자 정보(로그아웃 상태일때는 null)
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+   // 새로고침시 redux 에서 사용하는 state가 사라지므로 지속적인 로그인 상태 확인을 위해 사용
+   useEffect(() => {
+      dispatch(checkAuthStatusThunk())
+   }, [dispatch])
+   return (
+      <>
+         <Navbar isAuthenticated={isAuthenticated} user={user} />
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/posts/create" element={<PostCreatePage />} />
+         </Routes>
+      </>
+   )
 }
-
-export default App

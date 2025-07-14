@@ -3,17 +3,30 @@ const path = require('path') // 경로 처리 유틸리티
 const cookieParser = require('cookie-parser') // 쿠키 처리 미들웨어
 const morgan = require('morgan') // HTTP 요청 로깅 미들웨어
 const session = require('express-session') // 세션 관리 미들웨어
+const passport = require('passport') // 인증 미들웨어
 require('dotenv').config() // 환경 변수 관리
 const cors = require('cors') // CORS 미들웨어->api 서버는 반드시 설정
 
-const indexRouter =require('./routes')
+const indexRouter = require('./routes')
 const authRouter = require('./routes/auth')
 const boardRouter = require('./routes/board')
-const userRouter =require('./routes/user')
+const memberRouter = require('./routes/member')
+const pageRouter = require('./routes/page')
+const { sequelize } = require('./models') // index.js
+const passportConfig = require('./passport') // index.js 가져와서 실행해야함
+const app = express()
+passportConfig() //passport  함수 실행
+app.set('port', process.env.PORT || 8002)
 
-
-
-
+// 시퀄라이즈를 사용한 DB연결
+sequelize
+   .sync({ force: false }) // 데이터 베이스에 이미 존재하는 테이블 삭제하고 새로 생성할지 여부
+   .then(() => {
+      console.log('데이터베이스 연결 성공') // 연결 성공시
+   })
+   .catch((err) => {
+      console.error(err) // 연결 실패시
+   })
 
 //미들웨어 설정
 app.use(
@@ -46,7 +59,7 @@ app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/board', boardRouter)
 app.use('/page', pageRouter)
-app.use('/user', userRouter)
+app.use('/member', memberRouter)
 
 //잘못된 라우터 경로 처리
 app.use((req, res, next) => {

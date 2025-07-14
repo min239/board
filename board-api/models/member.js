@@ -22,7 +22,7 @@ module.exports = class Member extends Sequelize.Model {
             timestamps: true, //createAt, updateAt 자동 생성
             underscored: false,
             modelName: 'Member', // 모델 이름
-            tableName: 'member', // 테이블 이름
+            tableName: 'members', // 테이블 이름
             paranoid: true, // deleteAt 자동생성, 소프트 삭제
             charset: 'utf8mb4',
             collate: 'utf8mb4_general_ci',
@@ -30,7 +30,7 @@ module.exports = class Member extends Sequelize.Model {
       )
    }
    static associate(db) {
-      db.User.hasMany(db.Board, {
+      db.Member.hasMany(db.Board, {
          foreignKey: 'member_id',
          sourceKey: 'id',
       })
