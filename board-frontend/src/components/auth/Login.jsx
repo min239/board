@@ -2,7 +2,7 @@ import { TextField, Button, Container, Typography, CircularProgress } from '@mui
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearAuthError, loginUserThunk } from '../../features/authSlice'
+import { clearAuthError, loginMemberThunk } from '../../features/authSlice'
 
 function Login() {
    const [email, setEmail] = useState('') // 이메일
@@ -25,7 +25,7 @@ function Login() {
          alert('이메일과 비밀번호를 입력해주세요.')
          return
       }
-      dispatch(loginUserThunk({ email, password })) // 로그인 액션 디스패치 loginUserThunk로 감
+      dispatch(loginMemberThunk({ email, password })) // 로그인 액션 디스패치 loginUserThunk로 감
          .unwrap()
          .then(() => navigate('/')) // 로그인 성공시 메인페이지로 이동
          .catch((err) => console.error('로그인 실패:', err)) // 로그인 실패시 에러 출력
