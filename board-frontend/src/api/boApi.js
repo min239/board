@@ -3,7 +3,7 @@ import axios from 'axios'
 const BASE_URL = import.meta.env.VITE_APP_API_URL
 
 //axios 인스턴스 생성
-const snsApi = axios.create({
+const boApi = axios.create({
    baseURL: BASE_URL,
    headers: {
       'Content-Type': 'application/json', 
@@ -17,9 +17,9 @@ const snsApi = axios.create({
 //회원가입
 export const registerMember = async (memberData) => {
    try {
-      // localhost:8000/auth/join
-      console.log('userData: ', memberData)
-      const response = await snsApi.post('/auth/join', memberData)
+      
+      console.log('memberData: ', memberData)
+      const response = await boApi.post('/auth/join', memberData)
 
       console.log('response: ', response) // response: {data: {user: {id, email, name}}}
      
@@ -35,7 +35,7 @@ export const registerMember = async (memberData) => {
 export const loginMember = async (credentials) => {
    try {
       console.log('credentials: ', credentials)
-      const response = await snsApi.post('/auth/login', credentials)
+      const response = await boApi.post('/auth/login', credentials)
 
       console.log('response: ', response) 
       return response
@@ -47,7 +47,7 @@ export const loginMember = async (credentials) => {
 //로그아웃
 export const logoutMember = async () => {
    try {
-      const response = await snsApi.get('/auth/logout')
+      const response = await boApi.get('/auth/logout')
       return response
    } catch (error) {
       console.error(`API Request 오류: ${error}`)
@@ -57,7 +57,7 @@ export const logoutMember = async () => {
 //로그인 상태 확인
 export const checkAuthStatus = async () => {
    try {
-      const response = await snsApi.get('/auth/status')
+      const response = await boApi.get('/auth/status')
       return response
    } catch (error) {
       console.error(`API Request 오류: ${error}`)

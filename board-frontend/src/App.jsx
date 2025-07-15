@@ -8,7 +8,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { checkAuthStatusThunk } from './features/authSlice'
-import BoardCreatePage from './pages/BoardCreatePage'
+// import BoardCreatePage from './pages/BoardCreatePage'
 
 function App() {
    const dispatch = useDispatch()

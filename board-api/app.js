@@ -31,7 +31,7 @@ sequelize
 //미들웨어 설정
 app.use(
    cors({
-      origin: 'http://localhost:1573',
+      origin: 'http://localhost:5173',
       credentials: true,
    })
 )

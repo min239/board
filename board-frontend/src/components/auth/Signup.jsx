@@ -1,12 +1,12 @@
 import { TextField, Button, Container, Typography, CircularProgress } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { registerUserThunk, clearAuthError } from '../../features/authSlice'
+import { registerMemberThunk, clearAuthError } from '../../features/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 function Signup() {
    const [email, setEmail] = useState('') // 이메일
-   const [name, setName] = useState('') // 닉네임
+   const [name, setName] = useState('') //이름
    const [password, setPassword] = useState('') // 패스워드
    const [confirmPassword, setConfirmPassword] = useState('') // 패스워드 확인
    const [isSignupComplete, setIsSignupComplete] = useState(false) // 회원가입 완료 여부
@@ -15,9 +15,7 @@ function Signup() {
    const navigate = useNavigate()
    const { loading, error } = useSelector((state) => state.auth)
 
-   
    useEffect(() => {
- 
       return () => {
          dispatch(clearAuthError())
       }
@@ -37,7 +35,7 @@ function Signup() {
          return
       }
 
-      dispatch(registerUserThunk({ email, name, password }))
+      dispatch(registerMemberThunk({ email, name, password }))
          .unwrap()
          .then(() => {
             // 회원가입 성공시
