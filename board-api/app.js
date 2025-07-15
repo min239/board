@@ -14,6 +14,7 @@ const memberRouter = require('./routes/member')
 const pageRouter = require('./routes/page')
 const { sequelize } = require('./models') // index.js
 const passportConfig = require('./passport') // index.js 가져와서 실행해야함
+
 const app = express()
 passportConfig() //passport  함수 실행
 app.set('port', process.env.PORT || 8002)
@@ -54,13 +55,16 @@ app.use(
    })
 )
 
-//라우터 등록
-app.use('/', indexRouter)
-app.use('/auth', authRouter)
-app.use('/board', boardRouter)
-app.use('/page', pageRouter)
-app.use('/member', memberRouter)
+//passport 초기화, 세션연동
+app.use(passport.initialize()) //passport 초기화
+app.use(passport.session()) //passport와 생성해둔 세션 연결
 
+//라우터 등록
+app.use('/', indexRouter) // localhost:8000/
+app.use('/auth', authRouter) // localhost:8000/auth
+app.use('/board', boardRouter) // localhost:8000/board
+app.use('/page', pageRouter) // localhost:8000/page
+app.use('/member', memberRouter) // localhost:8000/member
 //잘못된 라우터 경로 처리
 app.use((req, res, next) => {
    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`)

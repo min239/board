@@ -9,6 +9,7 @@ module.exports = () => {
       done(null, member.id)
    })
 
+   //역직렬화
    passport.deserializeUser(async (id, done) => {
       //select id, name, email, createdAt, updatedAt from users where id = ? limit 1
       Member.findOne({
