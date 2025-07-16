@@ -22,8 +22,8 @@ export const registerMember = async (memberData) => {
       const response = await boApi.post('/auth/join', memberData)
 
       console.log('response: ', response) // response: {data: {user: {id, email, name}}}
-     
       return response
+
    } catch (error) {
     
       console.error(`API Request 오류: ${error.message}`)
@@ -58,6 +58,36 @@ export const logoutMember = async () => {
 export const checkAuthStatus = async () => {
    try {
       const response = await boApi.get('/auth/status')
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error}`)
+      throw error
+   }
+}
+
+//보드 등록
+export const createBoard = async (boardData) => {
+   try {
+      console.log('boardData:', boardData)
+
+      // ★서버에 파일 전송시 반드시 해야하는 headers 설정
+      const config = {
+         headers: {
+            'Content-Type': 'multipart/form-data', // 파일 전송시 반드시 지정
+         },
+      }
+      const response = await boApi.post('/board', boardData,config)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error}`)
+      throw error
+   }
+}
+
+//전체 보트 가져오기(페이징)
+export const getBoards = async (page) => {
+   try {
+      const response =await boApi.get(`/board?page=${page}`)
       return response
    } catch (error) {
       console.error(`API Request 오류: ${error}`)
