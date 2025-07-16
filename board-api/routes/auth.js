@@ -112,7 +112,7 @@ router.get('/logout', isLoggedIn, async (req, res, next) => {
 //현재 로그인 상태 확인 localhost:8000/auth/status
 router.get('/status', async (req, res, next) => {
    try {
-      if (req.isAuthenticated()) {
+      if (req.isAuthenticated()) {//? 이거 실행x 오류 찾아야함
          res.status(200).json({
             isAuthenticated: true, //로그인 상태
             member: {
