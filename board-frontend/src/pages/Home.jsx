@@ -8,6 +8,8 @@ function Home({ isAuthenticated, member }) {
    const [page, setPage] = useState(1) //현재 페이지
    const dispatch = useDispatch()
    const { boards, pagination, loading, error } = useSelector((state) => state.boards)
+
+   
    useEffect(() => {
       dispatch(fetchBoardsThunk(page)) //전체 리스트 가져오기
    }, [dispatch, page])

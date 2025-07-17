@@ -6,28 +6,25 @@ const BASE_URL = import.meta.env.VITE_APP_API_URL
 const boApi = axios.create({
    baseURL: BASE_URL,
    headers: {
-      'Content-Type': 'application/json', 
+      'Content-Type': 'application/json',
    },
    // localhost:5173 -> 프론트엔드
    // localhost:8000 -> 백엔드
- 
-   withCredentials: true, 
+
+   withCredentials: true,
 })
 
 //회원가입
 export const registerMember = async (memberData) => {
    try {
-      
       console.log('memberData: ', memberData)
       const response = await boApi.post('/auth/join', memberData)
 
       console.log('response: ', response) // response: {data: {user: {id, email, name}}}
       return response
-
    } catch (error) {
-    
       console.error(`API Request 오류: ${error.message}`)
-      throw error 
+      throw error
    }
 }
 
@@ -37,7 +34,7 @@ export const loginMember = async (credentials) => {
       console.log('credentials: ', credentials)
       const response = await boApi.post('/auth/login', credentials)
 
-      console.log('response: ', response) 
+      console.log('response: ', response)
       return response
    } catch (error) {
       console.error(`API Request 오류: ${error}`)
@@ -76,7 +73,7 @@ export const createBoard = async (boardData) => {
             'Content-Type': 'multipart/form-data', // 파일 전송시 반드시 지정
          },
       }
-      const response = await boApi.post('/board', boardData,config)
+      const response = await boApi.post('/board', boardData, config)
       return response
    } catch (error) {
       console.error(`API Request 오류: ${error}`)
@@ -87,7 +84,44 @@ export const createBoard = async (boardData) => {
 //전체 보트 가져오기(페이징)
 export const getBoards = async (page) => {
    try {
-      const response =await boApi.get(`/board?page=${page}`)
+      const response = await boApi.get(`/board?page=${page}`)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error}`)
+      throw error
+   }
+}
+
+//특정 보드 가져오기
+export const getBoardById = async (id) => {
+   try {
+      const response = await boApi.get(`/board/${id}`)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error}`)
+      throw error
+   }
+}
+
+//포스트 수정
+export const updateBoard = async (id, boardData) => {
+   try {
+      const config = {
+         headers: {
+            'Content-Type': 'multipart/form-data', // 파일 전송시 반드시 지정
+         },
+      }
+      const response = await boApi.put(`/board/${id}`, boardData, config)
+      return response
+   } catch (error) {
+      console.error(`API Request 오류: ${error}`)
+      throw error
+   }
+}
+//보드 삭제
+export const deleteBoard = async (id) => {
+   try {
+      const response = await boApi.delete(`/board/${id}`)
       return response
    } catch (error) {
       console.error(`API Request 오류: ${error}`)

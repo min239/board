@@ -1,11 +1,11 @@
 import { TextField, Button, Box } from '@mui/material'
 import { useState } from 'react'
 
-function BoardCreateForm({ onBoardCreate }) {
-   const [imgUrl, setImgUrl] = useState('') // 이미지 경로(파일명 포함)
+function BoardEditForm({ onBoardEdit, initialValues = {} }) {
+   const [imgUrl, setImgUrl] = useState(import.meta.env.VITE_APP_API_URL + initialValues.img) // 이미지 경로(파일명 포함)
    const [imgFile, setImgFile] = useState(null) // 이미지 파일 객체
-   const [content, setContent] = useState('') // 게시물 내용
-   const [titles, setTitles] = useState('')
+   const [content, setContent] = useState(initialValues.content) // 게시물 내용
+   const [title, setTitle] = useState(initialValues.title) //
 
    // 이미지 미리보기
    const handleImageChange = (e) => {
@@ -35,13 +35,8 @@ function BoardCreateForm({ onBoardCreate }) {
          return
       }
 
-      if (!titles.trim()) {
+      if (!title.trim()) {
          alert('제목을 입력하세요.')
-         return
-      }
-
-      if (!imgFile) {
-         alert('이미지 파일을 추가하세요.')
          return
       }
 
@@ -49,19 +44,14 @@ function BoardCreateForm({ onBoardCreate }) {
       const formData = new FormData()
 
       formData.append('content', content)
-      formData.append('titles', titles)
+      formData.append('title', title)
 
-      // 파일명 인코딩(한글 파일명 깨짐 방지)
-      const encodedFile = new File([imgFile], encodeURIComponent(imgFile.name), { type: imgFile.type })
-      formData.append('img', encodedFile) // 이미지 파일 추가 post.js의 upload.single('img')와 일치해야 한다
-
-      onBoardCreate(formData) // 게시물 등록
-
-      //   console.log('formData:', formData)
-
-      //   formData.forEach((value, key) => {
-      //      console.log(key, value)
-      //   })
+      if (imgFile) {
+         // 파일명 인코딩(한글 파일명 깨짐 방지)
+         const encodedFile = new File([imgFile], encodeURIComponent(imgFile.name), { type: imgFile.type })
+         formData.append('img', encodedFile) // 이미지 파일 추가 post.js의 upload.single('img')와 일치해야 한다
+      }
+      onBoardEdit(formData) // 게시물 등록
    }
 
    return (
@@ -78,7 +68,7 @@ function BoardCreateForm({ onBoardCreate }) {
             </Box>
          )}
          {/* 제목 입력 필드 */}
-         <TextField label="제목" variant="outlined" fullWidth multiline rows={2} value={titles} onChange={(e) => setTitles(e.target.value)} sx={{ mt: 2 }} />
+         <TextField label="제목" variant="outlined" fullWidth multiline rows={2} value={title} onChange={(e) => setTitle(e.target.value)} sx={{ mt: 2 }} />
 
          {/* 게시물 내용 입력 필드 */}
          <TextField label="게시물 내용" variant="outlined" fullWidth multiline rows={4} value={content} onChange={(e) => setContent(e.target.value)} sx={{ mt: 2 }} />
@@ -90,4 +80,4 @@ function BoardCreateForm({ onBoardCreate }) {
    )
 }
 
-export default BoardCreateForm
+export default BoardEditForm

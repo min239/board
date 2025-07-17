@@ -1,6 +1,7 @@
 // 로그인 상태 확인 미들웨어: 사용자가 로그인된 상태인지 확인
 exports.isLoggedIn = (req, res, next) => {
    if (req.isAuthenticated()) {
+      
       next() // 로그인이 됐으면 다음 미들웨어로 이동
    } else {
       // 로그인이 되지 않았을경우 에러 미들웨어로 에러 전송

@@ -29,12 +29,12 @@ function Navbar({ isAuthenticated, user }) {
          <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                <Link to="/">
-                  <img src="/images/image.png" alt="로고" width="160" style={{ display: 'inline-block', marginTop: '15px' }} />
+                  <img src="/images/image.jpg" alt="로고" width="200" style={{ display: 'inline-block', marginTop: '15px' }} />
                </Link>
             </Typography>
             {isAuthenticated ? (
                <>
-                  <Link to="/posts/create">
+                  <Link to="/boards/create">
                      <IconButton aria-label="글쓰기">
                         <CreateIcon />
                      </IconButton>
