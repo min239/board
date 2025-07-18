@@ -9,7 +9,6 @@ function Home({ isAuthenticated, member }) {
    const dispatch = useDispatch()
    const { boards, pagination, loading, error } = useSelector((state) => state.boards)
 
-   
    useEffect(() => {
       dispatch(fetchBoardsThunk(page)) //전체 리스트 가져오기
    }, [dispatch, page])
@@ -36,24 +35,22 @@ function Home({ isAuthenticated, member }) {
                에러 발생: {error}
             </Typography>
          )}
-
+         {/* 
+         수정전 코드
+      {boards.map((board) => (
+      <BoardItem key={board.id} board={board} isAuthenticated={isAuthenticated} member={member} />
+       ))}
+      BoaardItem은 단일 게시글(board)을 받아야하는 구조가 아니라 전체목록(boards)을 배열로 받아야 동작한다 하지만 위에 처럼 map으로 감싸서 BoardItem을 여러번 렌더링하면 Table이 중복되고 TableHead도 여려 번 렌더링 된다.
+      BoardItem을 한 번만 호출하고, boards배열을 한번에 넘겨줘야 한다
+      */}
          {boards.length > 0 ? (
             <>
-               {boards.map((board) => (
-                  <BoardItem key={board.id} board={board} isAuthenticated={isAuthenticated} member={member} />
-               ))}
+               <BoardItem boards={boards} isAuthenticated={isAuthenticated} member={member} />
                <Stack spacing={2} sx={{ mt: 3, alignItems: 'center' }}>
-                  <Pagination
-                     count={pagination.totalPages} //총페이지 수 Pagination
-                     page={page}
-                     onChange={handlePageChange}
-                  />
-                  {/* count={10} 페이지 10개 보여줌 */}
-                  {/* totalpage:총페이지 수 board.js에서 */}
+                  <Pagination count={pagination.totalPages} page={page} onChange={handlePageChange} />
                </Stack>
             </>
          ) : (
-            // boards 데이터가 0개 이면서 로딩중이 아닐때
             !loading && (
                <Typography variant="body1" align="center">
                   게시물이 없습니다.
