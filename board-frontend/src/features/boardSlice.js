@@ -14,13 +14,10 @@ export const createBoardThunk = createAsyncThunk('boards/createBoard', async (bo
    }
 })
 // 게시물 삭제
-export const deleteBoardThunk = createAsyncThunk('posts/deleteBoard', async (id, { rejectWithValue }) => {
+export const deleteBoardThunk = createAsyncThunk('boards/deleteBoard', async (id, { rejectWithValue }) => {
    try {
-      console.log('포스트 id: ', id)
-      const response = await deleteBoard(id)
-
-      console.log(response)
-      return response.data
+      await deleteBoard(id) //api 호출만 하고
+      return id //삭제한 id 반환
    } catch (error) {
       return rejectWithValue(error.response?.data?.message)
    }
@@ -40,7 +37,7 @@ export const updateBoardThunk = createAsyncThunk('boards/updateBoard', async (da
    }
 })
 // 특정 게시물 가져오기
-export const fetchBoardByIdThunk = createAsyncThunk('posts/fetchBoardById', async (id, { rejectWithValue }) => {
+export const fetchBoardByIdThunk = createAsyncThunk('boards/fetchBoardById', async (id, { rejectWithValue }) => {
    try {
       console.log('포스트 id: ', id)
       const response = await getBoardById(id)
@@ -138,8 +135,12 @@ const boardSlice = createSlice({
             state.loading = true
             state.error = null
          })
-         .addCase(deleteBoardThunk.fulfilled, (state) => {
+         .addCase(deleteBoardThunk.fulfilled, (state, action) => {
             state.loading = false
+            state.boards = state.boards.filter((b) => b.id !== action.payload)
+            // deleteBoardThunk.fulfilled에서 boards 배열에서 제거,boards 배열에서 해당 id 제거
+            //fulfilled 액션이 날아오고 boards 배열에서 해당 게시물 제거
+            //리스트를 렌더링하는 컴포넌트가 즉시 재렌더 → 화면에서 사라짐
          })
          .addCase(deleteBoardThunk.rejected, (state, action) => {
             state.loading = false

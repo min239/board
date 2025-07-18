@@ -118,7 +118,7 @@ export const updateBoard = async (id, boardData) => {
       throw error
    }
 }
-//보드 삭제
+//보드 삭제 
 export const deleteBoard = async (id) => {
    try {
       const response = await boApi.delete(`/board/${id}`)

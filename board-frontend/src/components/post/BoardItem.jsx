@@ -35,7 +35,7 @@ function BoardItem({ board, isAuthenticated, member }) {
          <CardContent>
             <Typography sx={{ color: 'primary.main' }}>제목:{board.title}</Typography>
 
-            <Typography>작성자:{board.Member.name} </Typography>
+            <Typography>작성자: {board.Member?.name || '알 수 없음'} </Typography>
 
             <Typography>작성일:{dayjs(board.createdAt).format('YYYY-MM-DD HH:mm:ss')}</Typography>
             <Typography>내용:{board.content}</Typography>
@@ -45,7 +45,7 @@ function BoardItem({ board, isAuthenticated, member }) {
                <FavoriteBorderIcon fontSize="small" />
             </Button>
 
-            {isAuthenticated && board.Member.id === member.id && (
+            {isAuthenticated && board.Member?.id === member.id && (
                <Box sx={{ p: 2 }}>
                   <Link to={`/boards/edit/${board.id}`}>
                      <IconButton aria-label="edit" size="small">
